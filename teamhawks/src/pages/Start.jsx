@@ -4,10 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import backgroundImage from "../images/sam1.jpg"; // Importing the image from the images folder
 import "./App.css"; // Assuming you have some styles in an external CSS file
-
+import axios, { HttpStatusCode } from "axios";
 const Start = () => {
   const navigate = useNavigate(); // Initialize useNavigate
   const [isLoginOpen, setLoginOpen] = useState(false); // State to manage login card visibility
+  const [error, setError] = useState(null);
   const [email, setEmail] = useState(""); // State for email input
   const [password, setPassword] = useState(""); // State for password input
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
@@ -19,10 +20,28 @@ const Start = () => {
   };
 
   // Function to handle login button click
-  const handleLogin = () => {
-    // Here you can add authentication logic
-    // For now, it will just navigate to the home page
-    navigate("/home"); // Navigate to the home page after login
+   async function handleLogin(){
+     // Here you can add authentication logic
+    try
+    {
+     const res = await axios.post("http://localhost:8081/user/login",{email : email, password : password});
+     // For now, it will just navigate to the home page
+     var d = res.data;
+     if(d == 1){
+      alert("User not registered");
+     }
+     else if(d == 2){
+      alert("Logged in Successfully");
+      navigate("/home"); // Navigate to the home page after login
+
+     }
+        
+     else if(d == 3)
+        alert("Password Incorrect");
+    }catch(e)
+    {
+     setError("password doest not match");
+   }
   };
 
   // Function to close the login card
@@ -72,7 +91,7 @@ const Start = () => {
         <h2 style={{ fontSize: "1.5rem", marginTop: "0.5rem" }}>
           Your trusted guide to navigating vendor excellence.
         </h2>
-
+        {error && <p>{{error}}</p>}
         {/* Buttons */}
         <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
           <button className="hover-button" onClick={() => setLoginOpen(true)}>

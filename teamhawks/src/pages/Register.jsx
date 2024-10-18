@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "./App.css"; // Assuming you have some styles in an external CSS file
 
@@ -21,7 +22,8 @@ const Register = () => {
 
     // Clear error and navigate to the home page
     setError("");
-    console.log("Registration Successful:", { username, email, password });
+    axios.post("http://localhost:8081/user/register", { userName : username, email :email,password :password});
+    //console.log("Registration Successful:", { username, email, password });
     navigate("/"); // Navigate to the home page
   };
 
