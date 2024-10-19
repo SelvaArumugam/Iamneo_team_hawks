@@ -220,6 +220,90 @@ const VendorList = () => {
         </div>
       )}
 
+      {/* Evaluation Card */}
+      {isEvaluationCardOpen && (
+        <div
+          className="evaluation-card"
+          onClick={() => setIsEvaluationCardOpen(false)}
+        >
+          <div
+            className="evaluation-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Evaluate {currentVendor?.name}</h2>
+            <form onSubmit={submitEvaluation}>
+              <label>
+                On Delivery:
+                <input
+                  type="number"
+                  name="onDelivery"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+              <label>
+                Quality:
+                <input
+                  type="number"
+                  name="quality"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+              <label>
+                Cost Efficient:
+                <input
+                  type="number"
+                  name="costEfficient"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+              <label>
+                Responsiveness:
+                <input
+                  type="number"
+                  name="responsiveness"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+              <label>
+                Risk Management:
+                <input
+                  type="number"
+                  name="riskManagement"
+                  min="0"
+                  max="100"
+                  required
+                />
+              </label>
+              <label>
+                Complaince
+                <input type="number" 
+                name = "compliance"
+                min="0"
+                max="100"
+                required
+                />
+              </label>
+
+              <textarea
+                name="feedback"
+                placeholder="Feedback"
+                required
+              ></textarea>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for Viewing Vendor Details */}
       {isModalOpen && (
         <div className="modal" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
