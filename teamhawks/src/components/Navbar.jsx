@@ -26,6 +26,25 @@ export default function ButtonAppBar() {
     navigate("/"); // Navigate to the home page
   };
 
+  const handleNavigation = (page) => {
+    switch (page) {
+      case "Dashboard":
+        navigate("/dashboard");
+        break;
+      case "Profile":
+        navigate("/profile");
+        break;
+      case "Vendors List":
+        navigate("/vendor");
+        break;
+      case "Help":
+        navigate("/help");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       {/* AppBar */}
@@ -100,7 +119,11 @@ export default function ButtonAppBar() {
             {/* Drawer items */}
             {["Dashboard", "Profile", "Vendors List", "Help"].map(
               (text, index) => (
-                <ListItem button key={text}>
+                <ListItem
+                  button
+                  key={text}
+                  onClick={() => handleNavigation(text)}
+                >
                   <ListItemText primary={text} />
                 </ListItem>
               )
