@@ -1,0 +1,66 @@
+/* Ensure the page fills the full viewport height */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  /* Main container for the homepage */
+  .homepage-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Styling for the top banner (1/4th height of the page) */
+  .top-banner {
+    background-size: cover;
+    background-position: center;
+    height: 25vh; /* 1/4th of the viewport height */
+    position: relative;
+  }
+  
+  /* Semi-transparent overlay on top of the image */
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Welcome text styling */
+  .welcome-text {
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Caption styling */
+  .caption {
+    color: #ddd;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  /* Main content section styling */
+  .content-section {
+    flex-grow: 1;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .content-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .content-section p {
+    font-size: 18px;
+    color: #666;
+  }
+  
