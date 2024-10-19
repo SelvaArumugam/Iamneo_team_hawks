@@ -1,12 +1,13 @@
 import React from "react";
+import VendorList from "../components/VendorList";
 import Navbar from "../components/Navbar";
-function home() {
+function Vendor() {
   return (
     <div>
       <Navbar />
-      
+      <VendorList/>
     </div>
   );
 }
 
-export default home;
+export default Vendor;
