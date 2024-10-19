@@ -1,0 +1,43 @@
+/* MultiLineChart.css */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #222222;
+  }
+  
+  .centered-chart {
+    width: 80%;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: #333333;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .centered-chart canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  h1 {
+    color: #FFFFFF;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  .line-chart-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .line-chart-legend span {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 14px;
+    color: #FFFFFF;
+  }
+  

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import "./VendorList.css"; // Ensure you import the CSS file
+import "./VendorList.css";
 
 const VendorList = () => {
   const [vendors, setVendors] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEvaluationCardOpen, setIsEvaluationCardOpen] = useState(false);
   const [currentVendor, setCurrentVendor] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isEvaluationOpen, setIsEvaluationOpen] = useState(false); // New state for evaluation
+  const [evaluations, setEvaluations] = useState({}); // Store evaluations for vendors
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,21 +17,28 @@ const VendorList = () => {
     service: "",
     contact: "",
   });
-  const [searchTerm, setSearchTerm] = useState(""); // State for the search term
-  const [evaluationResponses, setEvaluationResponses] = useState({}); // State for evaluation responses
 
-  // Handle the form inputs change
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Evaluation form data
+  const [evaluationData, setEvaluationData] = useState({
+    onDelivery: 50,
+    quality: 90,
+    costEfficiency: 20,
+    compliance: 75,
+    responsiveness: 15,
+    riskManagement: 80,
+  });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Add or Edit Vendor
   const addOrEditVendor = () => {
     if (
       formData.name &&
@@ -44,13 +53,27 @@ const VendorList = () => {
         );
         setVendors(updatedVendors);
       } else {
-        setVendors([...vendors, { ...formData, evaluations: [] }]);
+        setVendors([...vendors, formData]);
       }
-      resetForm();
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        service: "",
+        contact: "",
+      });
+      setIsPopupOpen(false);
+      setIsEditMode(false);
     }
   };
 
-  const resetForm = () => {
+  const removeVendor = (index) => {
+    const updatedVendors = vendors.filter((_, i) => i !== index);
+    setVendors(updatedVendors);
+  };
+
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
     setFormData({
       name: "",
       email: "",
@@ -58,85 +81,55 @@ const VendorList = () => {
       service: "",
       contact: "",
     });
-    setIsPopupOpen(false); // Close the popup after adding or editing
-    setIsEditMode(false); // Reset edit mode
+    setIsEditMode(false);
   };
 
-  // Remove a vendor
-  const removeVendor = (index) => {
-    const updatedVendors = vendors.filter((_, i) => i !== index);
-    setVendors(updatedVendors);
-  };
-
-  // Toggle the form popup
-  const togglePopup = () => {
-    resetForm();
-    setIsPopupOpen(!isPopupOpen);
-  };
-
-  // Open vendor details modal
   const openModal = (vendor) => {
     setCurrentVendor(vendor);
     setIsModalOpen(true);
   };
 
-  // Close the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentVendor(null);
   };
 
-  // Edit vendor details
   const editVendor = (vendor) => {
     setFormData(vendor);
     setIsEditMode(true);
-    setIsPopupOpen(true); // Open form popup for editing
-    setIsModalOpen(false); // Close the modal when editing
+    setIsPopupOpen(true);
+    setIsModalOpen(false);
   };
 
-  // Open evaluation card
-  const openEvaluationCard = (vendor) => {
-    setCurrentVendor(vendor);
-    setIsEvaluationCardOpen(true);
-  };
-
-  // Handle evaluation submission
-  const submitEvaluation = (e) => {
-    e.preventDefault();
-    const evaluation = {
-      onDelivery: Number(e.target.onDelivery.value),
-      quality: Number(e.target.quality.value),
-      costEfficient: Number(e.target.costEfficient.value),
-      responsiveness: Number(e.target.responsiveness.value),
-      riskManagement: Number(e.target.riskManagement.value),
-      compliance: e.target.compliance.value,
-      feedback: e.target.feedback.value,
-    };
-
-    // Add evaluation to current vendor
-    const updatedVendors = vendors.map((vendor) => {
-      if (vendor === currentVendor) {
-        return { ...vendor, evaluations: [...vendor.evaluations, evaluation] };
-      }
-      return vendor;
-    });
-    setVendors(updatedVendors);
-    setEvaluationResponses((prev) => ({
-      ...prev,
-      [currentVendor.name]: evaluation,
-    }));
-
-    setIsEvaluationCardOpen(false);
-  };
-
-  // Filter vendors based on search term
   const filteredVendors = vendors.filter((vendor) =>
     vendor.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Open Evaluation form
+  const openEvaluationForm = (vendor) => {
+    setCurrentVendor(vendor);
+    setIsEvaluationOpen(true);
+  };
+
+  // Handle slider change
+  const handleEvaluationChange = (e) => {
+    const { name, value } = e.target;
+    setEvaluationData({ ...evaluationData, [name]: Number(value) });
+  };
+
+  // Submit evaluation
+  const submitEvaluation = () => {
+    const updatedEvaluations = { ...evaluations };
+    if (!updatedEvaluations[currentVendor.name]) {
+      updatedEvaluations[currentVendor.name] = [];
+    }
+    updatedEvaluations[currentVendor.name].push(evaluationData);
+    setEvaluations(updatedEvaluations);
+    setIsEvaluationOpen(false);
+  };
+
   return (
     <div className="container">
-      {/* Header with Search bar and Add button */}
       <div className="header">
         <input
           type="text"
@@ -150,7 +143,6 @@ const VendorList = () => {
         </button>
       </div>
 
-      {/* Vendor List */}
       <div className="vendor-list">
         {filteredVendors.length > 0 ? (
           filteredVendors.map((vendor, index) => (
@@ -164,7 +156,7 @@ const VendorList = () => {
                 </button>
                 <button
                   className="evaluate-btn"
-                  onClick={() => openEvaluationCard(vendor)}
+                  onClick={() => openEvaluationForm(vendor)}
                 >
                   Evaluate
                 </button>
@@ -182,13 +174,9 @@ const VendorList = () => {
         )}
       </div>
 
-      {/* Popup Form */}
       {isPopupOpen && (
         <div className="popup-form" onClick={togglePopup}>
-          <div
-            className="popup-content"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside form
-          >
+          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
             <h2>{isEditMode ? "Edit Vendor" : "Add Vendor"}</h2>
             <input
               type="text"
@@ -322,25 +310,106 @@ const VendorList = () => {
             <h3>Vendor Details</h3>
             <p>Name: {currentVendor?.name}</p>
             <p>Email: {currentVendor?.email}</p>
-            <p>Service: {currentVendor?.service}</p>
-            <p>Contact: {currentVendor?.contact}</p>
-            <h4>Evaluations:</h4>
-            {currentVendor?.evaluations.length > 0 ? (
-              currentVendor.evaluations.map((evaluation, idx) => (
-                <div key={idx}>
-                  <p>On Delivery: {evaluation.onDelivery}%</p>
-                  <p>Quality: {evaluation.quality}%</p>
-                  <p>Cost Efficient: {evaluation.costEfficient}%</p>
-                  <p>Responsiveness: {evaluation.responsiveness}%</p>
-                  <p>Risk Management: {evaluation.riskManagement}%</p>
-                  <p>Compliance: {evaluation.compliance}</p>
-                  <p>Feedback: {evaluation.feedback}</p>
-                </div>
-              ))
-            ) : (
-              <p>No evaluations available.</p>
+            <p>Service Provided: {currentVendor?.service}</p>
+            <p>Contact Number: {currentVendor?.contact}</p>
+            <button onClick={() => editVendor(currentVendor)}>Edit</button>
+            {evaluations[currentVendor?.name] && (
+              <div>
+                <h4>Evaluations:</h4>
+                {evaluations[currentVendor.name].map((evaluation, idx) => (
+                  <div key={idx}>
+                    <p>Evaluation {idx + 1}</p>
+                    <p>On Delivery: {evaluation.onDelivery}%</p>
+                    <p>Quality: {evaluation.quality}%</p>
+                    <p>Cost Efficiency: {evaluation.costEfficiency}%</p>
+                    <p>Compliance: {evaluation.compliance}%</p>
+                    <p>Responsiveness: {evaluation.responsiveness}%</p>
+                    <p>Risk Management: {evaluation.riskManagement}%</p>
+                  </div>
+                ))}
+              </div>
             )}
-            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {isEvaluationOpen && (
+        <div className="modal" onClick={() => setIsEvaluationOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Evaluate {currentVendor?.name}</h3>
+            <div>
+              <label>On Delivery:</label>
+              <input
+                type="range"
+                name="onDelivery"
+                min="0"
+                max="100"
+                value={evaluationData.onDelivery}
+                onChange={handleEvaluationChange}
+              />
+              <span>{evaluationData.onDelivery}%</span>
+            </div>
+            <div>
+              <label>Quality:</label>
+              <input
+                type="range"
+                name="quality"
+                min="0"
+                max="100"
+                value={evaluationData.quality}
+                onChange={handleEvaluationChange}
+              />
+              <span>{evaluationData.quality}%</span>
+            </div>
+            <div>
+              <label>Cost Efficiency:</label>
+              <input
+                type="range"
+                name="costEfficiency"
+                min="0"
+                max="100"
+                value={evaluationData.costEfficiency}
+                onChange={handleEvaluationChange}
+              />
+              <span>{evaluationData.costEfficiency}%</span>
+            </div>
+            <div>
+              <label>Compliance:</label>
+              <input
+                type="range"
+                name="compliance"
+                min="0"
+                max="100"
+                value={evaluationData.compliance}
+                onChange={handleEvaluationChange}
+              />
+              <span>{evaluationData.compliance}%</span>
+            </div>
+            <div>
+              <label>Responsiveness:</label>
+              <input
+                type="range"
+                name="responsiveness"
+                min="0"
+                max="100"
+                value={evaluationData.responsiveness}
+                onChange={handleEvaluationChange}
+              />
+              <span>{evaluationData.responsiveness}%</span>
+            </div>
+            <div>
+              <label>Risk Management:</label>
+              <input
+                type="range"
+                name="riskManagement"
+                min="0"
+                max="100"
+                value={evaluationData.riskManagement}
+                onChange={handleEvaluationChange}
+              />
+              <span>{evaluationData.riskManagement}%</span>
+            </div>
+            <button onClick={submitEvaluation}>Submit Evaluation</button>
           </div>
         </div>
       )}

@@ -29,7 +29,7 @@ export default function ButtonAppBar() {
   const handleNavigation = (page) => {
     switch (page) {
       case "Dashboard":
-        navigate("/dashboard");
+        navigate("/home");
         break;
       case "Profile":
         navigate("/profile");
