@@ -8,29 +8,31 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "User")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "vendor")
 @Entity
-public class User {
-    String userName;
+public class Vendor {
+    String name;
+    String serviceProvided;
+    String contactNumber;
     String email;
     String password;
-    String type;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "vendorList")
-    List<Vendor> vendors;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    User user;
 }

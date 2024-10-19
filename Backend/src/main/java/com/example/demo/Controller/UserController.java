@@ -1,5 +1,7 @@
 package com.example.demo.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Model.Login;
 import com.example.demo.Model.User;
+import com.example.demo.Model.Vendor;
 import com.example.demo.Service.UserService;
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -31,5 +35,10 @@ public class UserController {
     {
         Integer userVerified = userService.LoginPassword(login.getEmail(), login.getPassword());
         return new ResponseEntity<>(userVerified,HttpStatus.OK);
+    }
+    @GetMapping("/listVendor/{id}")
+    ResponseEntity<List<Vendor>> listVendor(@RequestParam int id) {
+        List<Vendor> vendorList = userService.getVendorList(id);
+        return new ResponseEntity<>(vendorList, HttpStatus.OK);
     }
 }
