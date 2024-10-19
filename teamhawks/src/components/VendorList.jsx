@@ -295,8 +295,13 @@ const VendorList = () => {
                 />
               </label>
               <label>
-                Complains
-                <input type="text-box" />
+                Complaince
+                <input type="number" 
+                name = "compliance"
+                min="0"
+                max="100"
+                required
+                />
               </label>
 
               <textarea
