@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif; /* Set a clean font for the body */
+    background-color: #f4f4f4; /* Light background color */
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .profile-container {
+    max-width: 800px; /* Increase max width for a larger profile card */
+    margin: auto; /* Center the profile container */
+    background: white; /* White background for the profile card */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+    padding: 30px; /* Increased padding for content */
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 30px; /* Increase margin below header */
+  }
+  
+  .profile-pic {
+    width: 200px; /* Increased width of the profile picture */
+    height: 200px; /* Increased height of the profile picture */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Ensure the image covers the area without stretching */
+    border: 3px solid #007bff; /* Optional: Add a border */
+  }
+  
+  .image-upload {
+    margin-top: 10px; /* Space above the file input */
+    display: block; /* File input on a new line */
+    margin-left: auto; /* Center align */
+    margin-right: auto; /* Center align */
+  }
+  
+  .profile-details {
+    margin-bottom: 30px; /* Space between details and button */
+    font-size: 18px; /* Increase font size for details */
+  }
+  
+  .detail {
+    margin: 15px 0; /* Margin for each detail */
+  }
+  
+  .edit-btn {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* Button text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded button */
+    padding: 12px 20px; /* Padding for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background transition */
+    font-size: 16px; /* Increase button font size */
+    display: block; /* Block button for better alignment */
+    margin: 0 auto; /* Center the button */
+  }
+  
+  .edit-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .edit-form {
+    margin-top: 30px; /* Space above the edit form */
+  }
+  
+  label {
+    display: block; /* Each label on a new line */
+    margin-bottom: 5px; /* Margin below labels */
+    font-weight: bold; /* Bold labels for better readability */
+  }
+  
+  input,
+  textarea {
+    width: 100%; /* Full width inputs */
+    padding: 10px; /* Padding for inputs */
+    margin-bottom: 15px; /* Space below each input */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded input corners */
+    box-sizing: border-box; /* Include padding in width calculation */
+  }
+  
+  textarea {
+    height: 120px; /* Fixed height for the textarea */
+  }
+  
