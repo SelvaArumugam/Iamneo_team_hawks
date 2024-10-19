@@ -30,7 +30,7 @@ public class Vendor {
     String email;
     String password;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")

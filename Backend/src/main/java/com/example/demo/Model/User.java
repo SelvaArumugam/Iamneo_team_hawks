@@ -28,7 +28,7 @@ public class User {
     String password;
     String type;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "vendorList")
