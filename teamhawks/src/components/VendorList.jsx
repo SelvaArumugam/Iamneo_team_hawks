@@ -104,11 +104,11 @@ const VendorList = () => {
   const submitEvaluation = (e) => {
     e.preventDefault();
     const evaluation = {
-      onDelivery: e.target.onDelivery.checked ? 100 : 0,
-      quality: e.target.quality.checked ? 100 : 0,
-      costEfficient: e.target.costEfficient.checked ? 100 : 0,
-      responsiveness: e.target.responsiveness.checked ? 100 : 0,
-      riskManagement: e.target.riskManagement.checked ? 100 : 0,
+      onDelivery: Number(e.target.onDelivery.value),
+      quality: Number(e.target.quality.value),
+      costEfficient: Number(e.target.costEfficient.value),
+      responsiveness: Number(e.target.responsiveness.value),
+      riskManagement: Number(e.target.riskManagement.value),
       compliance: e.target.compliance.value,
       feedback: e.target.feedback.value,
     };
@@ -245,31 +245,60 @@ const VendorList = () => {
             <h2>Evaluate {currentVendor?.name}</h2>
             <form onSubmit={submitEvaluation}>
               <label>
-                <input type="checkbox" name="onDelivery" />
-                On Delivery (100%)
+                On Delivery:
+                <input
+                  type="number"
+                  name="onDelivery"
+                  min="0"
+                  max="100"
+                  required
+                />
               </label>
               <label>
-                <input type="checkbox" name="quality" />
-                Quality (100%)
+                Quality:
+                <input
+                  type="number"
+                  name="quality"
+                  min="0"
+                  max="100"
+                  required
+                />
               </label>
               <label>
-                <input type="checkbox" name="costEfficient" />
-                Cost Efficient (100%)
+                Cost Efficient:
+                <input
+                  type="number"
+                  name="costEfficient"
+                  min="0"
+                  max="100"
+                  required
+                />
               </label>
               <label>
-                <input type="checkbox" name="responsiveness" />
-                Responsiveness (100%)
+                Responsiveness:
+                <input
+                  type="number"
+                  name="responsiveness"
+                  min="0"
+                  max="100"
+                  required
+                />
               </label>
               <label>
-                <input type="checkbox" name="riskManagement" />
-                Risk Management (100%)
+                Risk Management:
+                <input
+                  type="number"
+                  name="riskManagement"
+                  min="0"
+                  max="100"
+                  required
+                />
               </label>
-              <input
-                type="text"
-                name="compliance"
-                placeholder="Compliance"
-                required
-              />
+              <label>
+                Complains
+                <input type="text-box" />
+              </label>
+
               <textarea
                 name="feedback"
                 placeholder="Feedback"
@@ -293,7 +322,7 @@ const VendorList = () => {
             <h4>Evaluations:</h4>
             {currentVendor?.evaluations.length > 0 ? (
               currentVendor.evaluations.map((evaluation, idx) => (
-                <div key={idx} className="evaluation-detail">
+                <div key={idx}>
                   <p>On Delivery: {evaluation.onDelivery}%</p>
                   <p>Quality: {evaluation.quality}%</p>
                   <p>Cost Efficient: {evaluation.costEfficient}%</p>
@@ -304,9 +333,8 @@ const VendorList = () => {
                 </div>
               ))
             ) : (
-              <p>No evaluations submitted yet.</p>
+              <p>No evaluations available.</p>
             )}
-            <button onClick={() => editVendor(currentVendor)}>Edit</button>
             <button onClick={closeModal}>Close</button>
           </div>
         </div>
